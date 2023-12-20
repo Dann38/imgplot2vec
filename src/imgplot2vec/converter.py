@@ -45,7 +45,7 @@ class Converter:
 
 
 class AutoConverter(Converter):
-    def auto_imgplot2vec(self, img,  max_frame=0.1, max_intensity=80):
+    def auto_imgplot2vec(self, img,  max_frame=0.05, max_intensity=80):
         img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
         bottom_bord = self._auto_frame(img_gray, type_border="bottom", max_frame=max_frame, max_intensity=max_intensity)
         top_bord = self._auto_frame(img_gray, type_border="top", max_frame=max_frame, max_intensity=max_intensity)
@@ -54,7 +54,7 @@ class AutoConverter(Converter):
         frame = Frame(left_bord, top_bord, right_bord, bottom_bord, 1, 1)
         return self.imgplot2vec(img, frame)
 
-    def _auto_frame(self, img_gray, type_border="bottom", max_frame=0.1, max_intensity=80):
+    def _auto_frame(self, img_gray, type_border="bottom", max_frame=0.05, max_intensity=80):
         invimg = (255 - img_gray[:, :])
         if type_border in ("bottom", "top"):
             dim = invimg[1:, :].mean(1) - invimg[:-1, :].mean(1)
@@ -78,6 +78,7 @@ class AutoConverter(Converter):
                 return i
             else:
                 i += 1
+        return i
 
     def __end_max_intensity(self, dim, max_intensity):
         i = len(dim)
@@ -86,3 +87,4 @@ class AutoConverter(Converter):
                 return i
             else:
                 i -= 1
+        return i
