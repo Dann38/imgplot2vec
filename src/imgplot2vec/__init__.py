@@ -1,2 +1,2 @@
-from .converter import Converter, Frame
+from .converter import Converter, AutoConverter, Frame
 from .reader import Reader
